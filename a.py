@@ -71,15 +71,16 @@ while True:
     if event in (None, 'Exit'):
         break
     if event == 'Generate Random Tasks':
-        keys_entered = "(5,2,1), (2,1,1), (4,32,1)"
+        keys_entered = "(50,2,1), (80,3,1), (30,30,1)"
         window.Element('Tasks Input').Update(keys_entered)
     if event == 'Clear':
         window.Element('Tasks Input').Update("")
     if event == str_button_vis:
-        window.Element(str_image_result).Update('./s1.png')
         # exe_cmd_wr("")
         print_to_file_wr('./a_out.txt', 'w+', values['dropdown_algo'])
         print_to_file_wr('./a_out.txt', 'a+', values['Tasks Input'])
+        exe_cmd_wr('python3 sche.py')
+        window.Element(str_image_result).Update('./a.png')
 
 
 window.Close()
