@@ -1,4 +1,7 @@
 
+import draw
+
+
 def read_tasks(algo_map_input):
     task_list = []
     algo_num = 0
@@ -73,5 +76,20 @@ for task in task_list:
         tick = sched_end
     sched_tasks.append(tuple([sched_start,sched_end]))
     
-print(sched_tasks)
+
+sche = []
+for index, task in enumerate(sched_tasks):
+    sche.append(tuple([index,task[0],task[1],0]))
+    #print(tuple([index,task[0],task[1],0]))
+
+
+
+cont = {}
+for i in range(len(sche)):
+    cont[i]={i}
+
+
+draw.draw_canvas(sche, cont, 'a.png')
+
+
 

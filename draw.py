@@ -79,15 +79,18 @@ def draw_job(canvas_p,  job_name, start_p, start, end, color_filled):
 
 def draw_rule(data,max_width):
     width_factor = 5
-    draw_line_h(data, [90, 100], max_width*width_factor, 2, [0, 0, 0])
+    draw_line_h(data, [90, 30], (max_width+10) * width_factor, 2, [0, 0, 0])
+    
+    print("max width", max_width)
+    
 
-    for i in range(int(max_width/100+1)):
-        de = 100 * (i) * width_factor
+    for i in range(int(max_width/10+1)):
+        de = 10 * (i) * width_factor
         for j in range(2):
-            draw_line_v(data, [90, 100+de+j*50*width_factor], 5, 2, [0, 0, 0])
+            draw_line_v(data, [90, 30+de+j*5*width_factor], 5, 2, [0, 0, 0])
 
-        draw_line_v(data, [90, 100+de], 10, 2, [0, 0, 0])
-        draw_text(data, [60, 100+de-5], str(i), [0, 0, 0])
+        draw_line_v(data, [90, 30+de], 10, 2, [0, 0, 0])
+        draw_text(data, [60, 30+de-5], str(i*10), [0, 0, 0])
 
 
 def get_color_helper(x):
@@ -233,46 +236,37 @@ def draw_schedule(sche, cont, data):
 
         used_cpu_time += x_aft-x_ast
 
-        draw_job(data, str(i), [x_p, 100], int(x_ast), int(
+        draw_job(data, str(i), [x_p, 30], int(x_ast), int(
             x_aft), color_filled=cont_color[wr_cont[i]])
 
         # open a new line for a new core
         if (x_processor not in core_used):
             core_used.add(x_processor)
-            draw_text(data, [x_p+10, 20], 'core '+str(x_processor), [0, 0, 0])
-            draw_line_h(data, [x_p, 100], 1800, 1, [0, 0, 0])
-            draw_line_h(data, [x_p+50, 100], 1800, 1, [0, 0, 0])
+            #draw_text(data, [x_p+10, 20], 'core '+str(x_processor), [0, 0, 0])
+            draw_line_h(data, [x_p, 30], 180, 1, [0, 0, 0])
+            draw_line_h(data, [x_p+50, 30], 180, 1, [0, 0, 0])
 
     sum_cpu_time = last_end*(core_num+1)
 
     cont_open_data = cal_cont_open(sche, cont)
 
-    draw_text(data, [25, 300], 'con_open_times:', [0, 0, 0])
-
-    cont_open_data_print_gap = 30
-
-    for i in range(len(cont_open_data)):
-        draw_text(data, [25, 500+i*cont_open_data_print_gap],
-                  str(cont_open_data[i]), [0, 0, 0])
-    #print(cont_open_data)
-
     # up left side
-    draw_text(data, [25, 25],
+    draw_text(data, [15, 15],
               str(int(used_cpu_time/sum_cpu_time*100))+'%', [0, 0, 0])
-    draw_text(data, [25, 125], 'con_num:'+str(container_count), [0, 0, 0])
 
     # rule
     print(get_data_max_point(sche))
-    draw_rule(data,(int(get_data_max_point(sche)/100)+1)*100+30)
+    draw_rule(data,(int(get_data_max_point(sche)/10)+1)*10)
 
     # last end v line
-    draw_line_v(data, [50, 100 + int(last_end)], int(len(data)) - 25*2, 1)
+    draw_line_v(data, [50, 30 + int(last_end)], int(len(data)) - 25*2, 1)
 
 def get_data_span(sche_input):
     width_factor = 5
-    max_width = 100
+    max_width = 20
     max_core = 0
     for i in sche_input:
+        print(i)
         if i[1]> max_width:
             max_width = int(i[1])
         if i[2]> max_width:
@@ -280,7 +274,7 @@ def get_data_span(sche_input):
         if i[3]> max_core:
             max_core = i[3]
 
-    max_width = max_width * width_factor + 150
+    max_width = (max_width+15) * width_factor 
     
     gap_between_each_line = 70
     max_height = 120 + (max_core+1)*gap_between_each_line
@@ -289,8 +283,6 @@ def get_data_span(sche_input):
 
 
 def draw_canvas(sche, cont, picture_name):
-    print(sche)
-
     canvas_width, canvas_height = get_data_span(sche)
 
     data = numpy.full((canvas_height, canvas_width, 3), 255, dtype=numpy.uint8)
@@ -299,7 +291,7 @@ def draw_canvas(sche, cont, picture_name):
 
     draw_schedule(sche, cont, data)
 
-    draw_line_v(data, [90, 100], canvas_width - 25*2, 3)
+    draw_line_v(data, [90, 30], canvas_width - 25*2, 3)
 
     Image.fromarray(data).save(picture_name)
 
