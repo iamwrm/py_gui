@@ -41,8 +41,50 @@ def read_tasks(algo_map_input):
 
     return algo_num, task_tuple_list
 
+def fifo(task_list):
+    sched_tasks = []
+    tick = 0
+    for task in task_list:
+        arrive_time = task[1]
+        task_length = task[0]
 
-algo_map = {"First Come First Serve": 0}
+        diff = arrive_time - tick
+
+        sched_start = 0
+        sched_end = 0
+
+        if diff >= 0:
+            sched_start = arrive_time
+            sched_end = arrive_time+task_length
+            tick = sched_end
+        else:
+            sched_start = arrive_time - diff
+            sched_end = arrive_time + task_length - diff
+            tick = sched_end
+        sched_tasks.append(tuple([sched_start,sched_end]))
+    return sched_tasks
+
+def rr(task_list):
+    print(task_list)
+    sched_tasks = []
+    max_fac_time = 8
+
+    time_left = []
+    arr_time = []
+
+    for task in task_list:
+        time_left.append(task[0])
+        arr_time.append(task[1])
+
+
+    exit(0)
+    sched_tasks = [(2,5)]
+    
+
+    return sched_tasks
+
+
+algo_map = {"First Come First Serve": 0,"Round Robin":1}
 
 
 algo_num, task_list = read_tasks(algo_map)
@@ -53,29 +95,18 @@ print(task_list, len(task_list))
 
 task_list.sort(key=lambda tup: tup[1])
 
-
-tick = 0
+print(task_list)
 
 sched_tasks = []
-for task in task_list:
-    arrive_time = task[1]
-    task_length = task[0]
 
-    diff = arrive_time - tick
-
-    sched_start = 0
-    sched_end = 0
-
-    if diff >= 0:
-        sched_start = arrive_time
-        sched_end = arrive_time+task_length
-        tick = sched_end
-    else:
-        sched_start = arrive_time - diff
-        sched_end = arrive_time + task_length - diff
-        tick = sched_end
-    sched_tasks.append(tuple([sched_start,sched_end]))
+if algo_num == 0:
+    sched_tasks = fifo(task_list)
+if algo_num == 1:
+    print("Need rrr")
+    sched_tasks = rr(task_list)
+    #sched_tasks = fifo(task_list)
     
+print(sched_tasks)
 
 sche = []
 for index, task in enumerate(sched_tasks):
