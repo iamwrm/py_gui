@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import subprocess
-
+import random
 
 def exe_cmd_wr(command, *args):
     try:
@@ -81,6 +81,19 @@ while True:
         break
     if event == 'Generate Random Tasks':
         keys_entered = "(50,2,1), (80,3,1), (30,30,1)"
+        keys_entered = ""
+        for i in range(5):
+            length = int(random.uniform(2, 38))
+            arri = int(random.uniform(0,100))
+            str_job = ""
+            if i > 0:
+                str_job += ', '
+            str_job+='('+str(length)+','+str(arri)+',1)'
+
+            keys_entered += str_job
+
+
+
         window.Element('Tasks Input').Update(keys_entered)
     if event == 'Clear':
         window.Element('Tasks Input').Update("")
@@ -90,8 +103,8 @@ while True:
         print_to_file_wr('./a_out.txt', 'a+', values['Tasks Input'])
         exe_cmd_wr('python3 sche.py')
         window.Element(str_image_result).Update('./a.png')
-        window.Element(str_image_waiting).Update('./b.png')
-        window.Element(str_image_num_left).Update('./c.png')
+        window.Element(str_image_waiting).Update('./ba.png')
+        window.Element(str_image_num_left).Update('./ca.png')
 
 
 window.Close()
