@@ -2,6 +2,9 @@
 import draw
 from collections import defaultdict
 import numpy as np
+
+import matplotlib as mpl
+mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
@@ -133,6 +136,10 @@ def cal_overall_waiting_time(task, sche):
     wait_time = []
     wait_time_y = []
 
+    print(task)
+    print(sche)
+    
+    
     tick = 0
     while tick < latest_end_time:
         wait_time_i = 0
@@ -147,6 +154,7 @@ def cal_overall_waiting_time(task, sche):
         wait_time.append(tick)
 
         tick += 1
+
 
     for i, v in enumerate(wait_time_y):
         if i > 0:
@@ -217,9 +225,12 @@ for i, task in enumerate(sched_tasks):
 print(sche)
 print(task_list)
 
+draw.draw_canvas(sche, cont, 'a.png')
+
 
 waiting_time_x, waiting_time_y = cal_overall_waiting_time(
     task_list, sched_tasks)
+
 plt.figure(0)
 plt.plot(waiting_time_x, waiting_time_y, 'b', label='Overall Waiting Time')
 plt.legend()
@@ -234,4 +245,4 @@ plt.legend()
 plt.savefig('c.png')
 
 
-draw.draw_canvas(sche, cont, 'a.png')
+
