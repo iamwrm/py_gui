@@ -1,0 +1,2 @@
+# (length, arrive time, priority)
+(5,2,1), (2,1,1), (4,32,1)
