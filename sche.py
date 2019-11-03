@@ -218,18 +218,16 @@ print(sche)
 print(task_list)
 
 
-waiting_time_x, waiting_time_y = cal_overall_waiting_time(task_list, sche)
-
+waiting_time_x, waiting_time_y = cal_overall_waiting_time(
+    task_list, sched_tasks)
 plt.figure(0)
 plt.plot(waiting_time_x, waiting_time_y, 'b', label='Overall Waiting Time')
 plt.legend()
 plt.savefig('b.png')
 
 
-
 tasks_to_finish_x, tasks_to_finish_y = cal_overall_tasks_to_finish(
-    task_list, sche)
-
+    task_list, sched_tasks)
 plt.figure(1)
 plt.plot(tasks_to_finish_x, tasks_to_finish_y, 'b', label='Tasks to Finish')
 plt.legend()
