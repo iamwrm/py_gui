@@ -1,6 +1,8 @@
 
 import draw
 from collections import defaultdict
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def read_tasks(algo_map_input):
@@ -117,6 +119,74 @@ def rr(task_list):
     return sched_tasks
 
 
+def cal_overall_waiting_time(task, sche):
+    latest_end_time = 0
+    for v in sche:
+        end_time = v[2]
+        if end_time > latest_end_time:
+            latest_end_time = end_time
+
+    left_time = []
+    for v in task:
+        left_time.append(v[0])
+
+    wait_time = []
+    wait_time_y = []
+
+    tick = 0
+    while tick < latest_end_time:
+        wait_time_i = 0
+        for i, v in enumerate(task):
+            if tick >= v[1] and left_time[i] > 0:
+                wait_time_i += 1
+        for v in sche:
+            if left_time[v[0]] > 0:
+                if tick >= v[1] and tick <= v[2]:
+                    left_time[v[0]] -= 1
+        wait_time_y.append(wait_time_i)
+        wait_time.append(tick)
+
+        tick += 1
+
+    for i, v in enumerate(wait_time_y):
+        if i > 0:
+            wait_time_y[i] += wait_time_y[i-1]
+
+    return wait_time, wait_time_y
+
+
+def cal_overall_tasks_to_finish(task, sche):
+    latest_end_time = 0
+    for v in sche:
+        end_time = v[2]
+        if end_time > latest_end_time:
+            latest_end_time = end_time
+
+    left_time = []
+    for v in task:
+        left_time.append(v[0])
+
+    wait_time = []
+    wait_time_y = []
+
+    tick = 0
+    while tick < latest_end_time:
+        wait_time_i = 0
+        for i, v in enumerate(task):
+            if tick >= v[1] and left_time[i] > 0:
+                wait_time_i += 1
+        for v in sche:
+            if left_time[v[0]] > 0:
+                if tick >= v[1] and tick <= v[2]:
+                    left_time[v[0]] -= 1
+        wait_time_y.append(wait_time_i)
+        wait_time.append(tick)
+
+        tick += 1
+
+    return wait_time, wait_time_y
+
+
 algo_map = {"First Come First Serve": 0, "Round Robin": 1}
 
 
@@ -143,6 +213,27 @@ for i, v in enumerate(sched_tasks):
 cont = defaultdict(list)
 for i, task in enumerate(sched_tasks):
     cont[task[0]].append(i)
+
+print(sche)
+print(task_list)
+
+
+waiting_time_x, waiting_time_y = cal_overall_waiting_time(task_list, sche)
+
+plt.figure(0)
+plt.plot(waiting_time_x, waiting_time_y, 'b', label='Overall Waiting Time')
+plt.legend()
+plt.savefig('b.png')
+
+
+
+tasks_to_finish_x, tasks_to_finish_y = cal_overall_tasks_to_finish(
+    task_list, sche)
+
+plt.figure(1)
+plt.plot(tasks_to_finish_x, tasks_to_finish_y, 'b', label='Tasks to Finish')
+plt.legend()
+plt.savefig('c.png')
 
 
 draw.draw_canvas(sche, cont, 'a.png')

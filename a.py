@@ -25,11 +25,11 @@ text_guide = sg.Text(text_guide_txt)
 
 text_input_def = 'You can either input your own tasks or press the button above to get random number'
 
-drop_down_button_tuple = ('Select Algorithm', 'Round Robin',
-                          'First Come First Serve', 'Shortest Job First')
+drop_down_button_tuple = (
+    'Select Algorithm', 'Round Robin', 'First Come First Serve')
 
 dropdown_algorithms = sg.Drop(values=drop_down_button_tuple, auto_size_text=True, size=(
-    20, 1),key='dropdown_algo')
+    20, 1), key='dropdown_algo')
 
 text_tasks_input = sg.Multiline(default_text=text_input_def,
                                 size=(100, 3), key="Tasks Input")
@@ -48,7 +48,13 @@ button_visulize = sg.Button(str_button_vis, font=(
 button_clear = sg.Button(str_button_clear)
 
 str_image_result = 'image_result'
+str_image_waiting = 'image_waiting'
+str_image_num_left = 'image_numleft'
+
 image_sche_result = sg.Image(filename=r'./assets/1.png', key=str_image_result)
+image_waiting_time = sg.Image(
+    filename=r'./assets/1.png', key=str_image_waiting)
+image_num_left = sg.Image(filename=r'./assets/1.png', key=str_image_num_left)
 
 layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [text_guide],
@@ -81,6 +87,8 @@ while True:
         print_to_file_wr('./a_out.txt', 'a+', values['Tasks Input'])
         exe_cmd_wr('python3 sche.py')
         window.Element(str_image_result).Update('./a.png')
+        window.Element(str_image_waiting).Update('./b.png')
+        window.Element(str_image_num_left).Update('./c.png')
 
 
 window.Close()
