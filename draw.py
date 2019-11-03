@@ -236,15 +236,14 @@ def draw_schedule(sche, cont, data):
 
         used_cpu_time += x_aft-x_ast
 
-        draw_job(data, str(i), [x_p, 30], int(x_ast), int(
-            x_aft), color_filled=cont_color[wr_cont[i]])
+        draw_job(data, str(i), [x_p, 30], int(x_ast), int( x_aft), color_filled=cont_color[wr_cont[i]])
 
         # open a new line for a new core
         if (x_processor not in core_used):
             core_used.add(x_processor)
             #draw_text(data, [x_p+10, 20], 'core '+str(x_processor), [0, 0, 0])
-            draw_line_h(data, [x_p, 30], 180, 1, [0, 0, 0])
-            draw_line_h(data, [x_p+50, 30], 180, 1, [0, 0, 0])
+            draw_line_h(data, [x_p, 30], get_data_span(sche)[0], 1, [0, 0, 0])
+            draw_line_h(data, [x_p+50, 30],  get_data_span(sche)[0], 1, [0, 0, 0])
 
     sum_cpu_time = last_end*(core_num+1)
 
