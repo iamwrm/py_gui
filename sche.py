@@ -1,5 +1,6 @@
 
 import draw
+from collections import defaultdict
 
 
 def read_tasks(algo_map_input):
@@ -45,7 +46,7 @@ def read_tasks(algo_map_input):
 def fifo(task_list):
     sched_tasks = []
     tick = 0
-    for task in task_list:
+    for index, task in enumerate(task_list):
         arrive_time = task[1]
         task_length = task[0]
 
@@ -62,7 +63,8 @@ def fifo(task_list):
             sched_start = arrive_time - diff
             sched_end = arrive_time + task_length - diff
             tick = sched_end
-        sched_tasks.append(tuple([sched_start, sched_end]))
+        sched_tasks.append(tuple([index, sched_start, sched_end]))
+
     return sched_tasks
 
 
@@ -84,8 +86,6 @@ def rr(task_list):
     print(i_max)
 
     while True:
-        print("ion whiel")
-
         finished = False
 
         runned = False
@@ -95,11 +95,13 @@ def rr(task_list):
                     runned = True
                     # can schedule
                     if time_left[i] < max_fac_time:
-                        sched_tasks.append(tuple([tick, tick+time_left[i]]))
+                        sched_tasks.append(
+                            tuple([i, tick, tick+time_left[i]]))
                         time_left[i] = 0
                         tick += time_left[i]
                     else:
-                        sched_tasks.append(tuple([tick, tick+max_fac_time]))
+                        sched_tasks.append(
+                            tuple([i, tick, tick+max_fac_time]))
                         time_left[i] -= max_fac_time
                         tick += time_left[i]
 
@@ -141,14 +143,15 @@ if algo_num == 1:
 print(sched_tasks)
 
 sche = []
-for index, task in enumerate(sched_tasks):
-    sche.append(tuple([index, task[0], task[1], 0]))
-    # print(tuple([index,task[0],task[1],0]))
 
+for i, v in enumerate(sched_tasks):
+    sche.append(tuple([i, v[1], v[2], 0]))
 
-cont = {}
-for i in range(len(sche)):
-    cont[i] = {i}
+cont = defaultdict(list)
+for i, task in enumerate(sched_tasks):
+    cont[task[0]].append(i)
+
+print(cont)
 
 
 draw.draw_canvas(sche, cont, 'a.png')
