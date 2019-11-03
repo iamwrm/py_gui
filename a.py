@@ -36,17 +36,21 @@ button_rand_gen = sg.Button(str_button_rand, font=(
 button_visulize = sg.Button(str_button_vis,font=(
     "Helvetica", 15), size=(20, 3),button_color=('white','orange'))
 
-
+str_image_result = 'image_result'
+image_sche_result = sg.Image(filename=r'./assets/1.png',key=str_image_result)
 
 layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [button_rand_gen, ],
           [text_tasks_input],
           [dropdown_algorithms, button_visulize],
+          [image_sche_result],
           [sg.Button('Touch'), sg.Button('Clear'),
            sg.Button('Read'), sg.Exit()],
           ]
 
 window = sg.Window('Window that stays open', layout)
+
+state = 1
 
 while True:
     event, values = window.Read()
@@ -62,6 +66,16 @@ while True:
         exe_cmd_wr('echo touched')
     if event == 'Clear':
         exe_cmd_wr('echo cleared')
+    if event == str_button_vis:
+        if state==1:
+            state=0
+            window.Element(str_image_result).Update('./assets/2.png')
+        else:
+            state = 1
+            window.Element(str_image_result).Update('./s1.png')
+
+
+
 
 
 window.Close()
