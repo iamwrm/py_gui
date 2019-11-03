@@ -1,4 +1,3 @@
-
 import draw
 from collections import defaultdict
 import numpy as np
@@ -258,5 +257,8 @@ with open('one_time.txt', 'a') as f:
     f.write( str(sum(tasks_to_finish_y)/len(tasks_to_finish_y)))
     f.write("\n")
 
+with open('one_time.txt', 'a') as f:
+    f.write( str(algo_num))
+    f.write("\n")
 
 draw.draw_canvas(sche, cont, 'a.png')

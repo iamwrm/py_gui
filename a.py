@@ -39,7 +39,8 @@ str_button_rand = 'Generate Random Tasks'
 str_button_vis = 'Schedule and Visualize'
 str_button_clear = 'Clear'
 str_button_save = 'Save'
-str_button_clear_save = 'SaveClear'
+str_button_clear_save = 'Clear saved data'
+str_button_plot = 'Plot'
 
 button_rand_gen = sg.Button(str_button_rand, font=(
     "Helvetica", 10), button_color=('white', 'green'))
@@ -50,10 +51,12 @@ button_visulize = sg.Button(str_button_vis, font=(
 button_clear = sg.Button(str_button_clear)
 button_save = sg.Button(str_button_save)
 button_clear_save = sg.Button(str_button_clear_save)
+button_plot = sg.Button(str_button_plot)
 
 str_image_result = 'image_result'
 str_image_waiting = 'image_waiting'
 str_image_num_left = 'image_numleft'
+str_image_compare = 'image_compare'
 
 image_sche_result = sg.Image(filename=r'./assets/c1.png', key=str_image_result)
 
@@ -61,6 +64,7 @@ image_waiting_time = sg.Image(
     filename=r'./assets/c1.png', key=str_image_waiting)
 
 image_num_left = sg.Image(filename=r'./assets/c1.png', key=str_image_num_left)
+image_compare = sg.Image(filename=r'./assets/c1.png', key=str_image_compare)
 
 layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [text_guide],
@@ -69,8 +73,10 @@ layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [dropdown_algorithms, button_visulize],
           [image_sche_result],
           [image_waiting_time, image_num_left],
-          [button_save,button_clear_save],
+          [button_save,button_clear_save,button_plot],
+          [image_compare],
           [sg.Exit()],
+
           ]
 
 window = sg.Window('Window that stays open', layout)
@@ -101,6 +107,9 @@ while True:
         window.Element('Tasks Input').Update("")
     if event == str_button_save:
         exe_cmd_wr('cat one_time.txt >> saved.txt')
+    if event == str_button_plot:
+        exe_cmd_wr('python3 plot_com.py')
+        window.Element(str_image_compare).Update('./d.png')
     if event == str_button_clear_save:
         exe_cmd_wr('rm -f saved.txt')
     if event == str_button_vis:
