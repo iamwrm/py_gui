@@ -15,23 +15,32 @@ def exe_cmd_wr(command, *args):
         pass
 
 
-layout = [[sg.Text('Persistent window')],
-          [sg.Input(key='IN_1')],
-          [sg.Input(key='IN_2')],
+layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
+          [sg.Button('Generate Random Tasks', font=("Helvetica", 10))],
+          [sg.Multiline(
+              default_text='This is the default Text should you decide not to type anything', size=(35, 3), key="Tasks Input")],
           [sg.Button('Read'), sg.Exit()],
-          [sg.Button('Touch'), sg.Button('Clear')]
+          [sg.Button('Touch'), sg.Button('Clear')],
+          [sg.Drop(values=('BatchNorm', 'other'), auto_size_text=True)],
           ]
 
 window = sg.Window('Window that stays open', layout)
 
 while True:
     event, values = window.Read()
+
+    keys_entered = ""
     print(event, values)
     if event in (None, 'Exit'):
         break
+    if event == 'Generate Random Tasks':
+        keys_entered="GRT"
+        window.Element('Tasks Input').Update(keys_entered)
+        print(values)
     if event == 'Touch':
-        exe_cmd_wr('touch a b c')
+        exe_cmd_wr('echo touched')
     if event == 'Clear':
-        exe_cmd_wr('rm -f a b c')
+        exe_cmd_wr('echo cleared')
+
 
 window.Close()
