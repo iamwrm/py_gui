@@ -38,6 +38,8 @@ text_tasks_input = sg.Multiline(default_text=text_input_def,
 str_button_rand = 'Generate Random Tasks'
 str_button_vis = 'Schedule and Visualize'
 str_button_clear = 'Clear'
+str_button_save = 'Save'
+str_button_clear_save = 'SaveClear'
 
 button_rand_gen = sg.Button(str_button_rand, font=(
     "Helvetica", 10), button_color=('white', 'green'))
@@ -46,17 +48,19 @@ button_visulize = sg.Button(str_button_vis, font=(
     "Helvetica", 15), size=(20, 3), button_color=('white', 'orange'))
 
 button_clear = sg.Button(str_button_clear)
+button_save = sg.Button(str_button_save)
+button_clear_save = sg.Button(str_button_clear_save)
 
 str_image_result = 'image_result'
 str_image_waiting = 'image_waiting'
 str_image_num_left = 'image_numleft'
 
-image_sche_result = sg.Image(filename=r'./assets/1.png', key=str_image_result)
+image_sche_result = sg.Image(filename=r'./assets/c1.png', key=str_image_result)
 
 image_waiting_time = sg.Image(
-    filename=r'./assets/1.png', key=str_image_waiting)
+    filename=r'./assets/c1.png', key=str_image_waiting)
 
-image_num_left = sg.Image(filename=r'./assets/1.png', key=str_image_num_left)
+image_num_left = sg.Image(filename=r'./assets/c1.png', key=str_image_num_left)
 
 layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [text_guide],
@@ -65,6 +69,7 @@ layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [dropdown_algorithms, button_visulize],
           [image_sche_result],
           [image_waiting_time, image_num_left],
+          [button_save,button_clear_save],
           [sg.Exit()],
           ]
 
@@ -80,9 +85,8 @@ while True:
     if event in (None, 'Exit'):
         break
     if event == 'Generate Random Tasks':
-        keys_entered = "(50,2,1), (80,3,1), (30,30,1)"
         keys_entered = ""
-        for i in range(5):
+        for i in range(15):
             length = int(random.uniform(2, 38))
             arri = int(random.uniform(0,100))
             str_job = ""
@@ -92,11 +96,13 @@ while True:
 
             keys_entered += str_job
 
-
-
         window.Element('Tasks Input').Update(keys_entered)
     if event == 'Clear':
         window.Element('Tasks Input').Update("")
+    if event == str_button_save:
+        exe_cmd_wr('cat one_time.txt >> saved.txt')
+    if event == str_button_clear_save:
+        exe_cmd_wr('rm -f saved.txt')
     if event == str_button_vis:
         # exe_cmd_wr("")
         print_to_file_wr('./a_out.txt', 'w+', values['dropdown_algo'])

@@ -237,6 +237,10 @@ wsize = int((float(img.size[0]) * float(wpercent)))
 img = img.resize((wsize, hsize), PIL.Image.ANTIALIAS)
 img.save('ba.png')
 
+with open('one_time.txt', 'w') as f:
+    f.write(str(waiting_time_y[-1]))
+    f.write("\n")
+
 tasks_to_finish_x, tasks_to_finish_y = cal_overall_tasks_to_finish(
     task_list, sched_tasks)
 plt.figure(1)
@@ -249,6 +253,10 @@ hsize = int((float(img.size[1]) * float(wpercent)))
 wsize = int((float(img.size[0]) * float(wpercent)))
 img = img.resize((wsize, hsize), PIL.Image.ANTIALIAS)
 img.save('ca.png')
+
+with open('one_time.txt', 'a') as f:
+    f.write( str(sum(tasks_to_finish_y)/len(tasks_to_finish_y)))
+    f.write("\n")
 
 
 draw.draw_canvas(sche, cont, 'a.png')
