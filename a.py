@@ -52,8 +52,10 @@ str_image_waiting = 'image_waiting'
 str_image_num_left = 'image_numleft'
 
 image_sche_result = sg.Image(filename=r'./assets/1.png', key=str_image_result)
+
 image_waiting_time = sg.Image(
     filename=r'./assets/1.png', key=str_image_waiting)
+
 image_num_left = sg.Image(filename=r'./assets/1.png', key=str_image_num_left)
 
 layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
@@ -62,6 +64,7 @@ layout = [[sg.Text('Scheduling Alogrithm Visualization Tool')],
           [text_tasks_input],
           [dropdown_algorithms, button_visulize],
           [image_sche_result],
+          [image_waiting_time, image_num_left],
           [sg.Exit()],
           ]
 
