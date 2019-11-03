@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib as mpl
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
+import PIL
+from PIL import Image
 
 
 def read_tasks(algo_map_input):
@@ -136,10 +138,6 @@ def cal_overall_waiting_time(task, sche):
     wait_time = []
     wait_time_y = []
 
-    print(task)
-    print(sche)
-    
-    
     tick = 0
     while tick < latest_end_time:
         wait_time_i = 0
@@ -154,7 +152,6 @@ def cal_overall_waiting_time(task, sche):
         wait_time.append(tick)
 
         tick += 1
-
 
     for i, v in enumerate(wait_time_y):
         if i > 0:
@@ -225,17 +222,20 @@ for i, task in enumerate(sched_tasks):
 print(sche)
 print(task_list)
 
-draw.draw_canvas(sche, cont, 'a.png')
-
 
 waiting_time_x, waiting_time_y = cal_overall_waiting_time(
     task_list, sched_tasks)
-
 plt.figure(0)
 plt.plot(waiting_time_x, waiting_time_y, 'b', label='Overall Waiting Time')
 plt.legend()
 plt.savefig('b.png')
 
+wpercent = 0.5
+img = Image.open('b.png')
+hsize = int((float(img.size[1]) * float(wpercent)))
+wsize = int((float(img.size[0]) * float(wpercent)))
+img = img.resize((wsize, hsize), PIL.Image.ANTIALIAS)
+img.save('ba.png')
 
 tasks_to_finish_x, tasks_to_finish_y = cal_overall_tasks_to_finish(
     task_list, sched_tasks)
@@ -243,6 +243,12 @@ plt.figure(1)
 plt.plot(tasks_to_finish_x, tasks_to_finish_y, 'b', label='Tasks to Finish')
 plt.legend()
 plt.savefig('c.png')
+wpercent = 0.5
+img = Image.open('c.png')
+hsize = int((float(img.size[1]) * float(wpercent)))
+wsize = int((float(img.size[0]) * float(wpercent)))
+img = img.resize((wsize, hsize), PIL.Image.ANTIALIAS)
+img.save('ca.png')
 
 
-
+draw.draw_canvas(sche, cont, 'a.png')
