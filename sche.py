@@ -69,7 +69,6 @@ def fifo(task_list):
 
 
 def rr(task_list):
-    print(task_list)
     sched_tasks = []
     max_fac_time = 8
 
@@ -83,13 +82,14 @@ def rr(task_list):
         arr_time.append(task[1])
 
     i_max = len(task_list)
-    print(i_max)
 
     while True:
         finished = False
-
         runned = False
+
+        print("Tick= ", tick)
         for i in range(i_max):
+            print("Tick= ", tick)
             if time_left[i] > 0:
                 if arr_time[i] <= tick:
                     runned = True
@@ -103,7 +103,7 @@ def rr(task_list):
                         sched_tasks.append(
                             tuple([i, tick, tick+max_fac_time]))
                         time_left[i] -= max_fac_time
-                        tick += time_left[i]
+                        tick += max_fac_time
 
         if runned == False:
             for i in range(i_max):
@@ -115,8 +115,6 @@ def rr(task_list):
                 break
 
         runned = False
-
-    print(sched_tasks)
 
     return sched_tasks
 
@@ -140,8 +138,6 @@ if algo_num == 1:
     sched_tasks = rr(task_list)
     # sched_tasks = fifo(task_list)
 
-print(sched_tasks)
-
 sche = []
 
 for i, v in enumerate(sched_tasks):
@@ -150,8 +146,6 @@ for i, v in enumerate(sched_tasks):
 cont = defaultdict(list)
 for i, task in enumerate(sched_tasks):
     cont[task[0]].append(i)
-
-print(cont)
 
 
 draw.draw_canvas(sche, cont, 'a.png')

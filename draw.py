@@ -81,7 +81,7 @@ def draw_rule(data,max_width):
     width_factor = 5
     draw_line_h(data, [90, 30], (max_width+10) * width_factor, 2, [0, 0, 0])
     
-    print("max width", max_width)
+    #print("max width", max_width)
     
 
     for i in range(int(max_width/10+1)):
@@ -254,7 +254,7 @@ def draw_schedule(sche, cont, data):
               str(int(used_cpu_time/sum_cpu_time*100))+'%', [0, 0, 0])
 
     # rule
-    print(get_data_max_point(sche))
+    #print(get_data_max_point(sche))
     draw_rule(data,(int(get_data_max_point(sche)/10)+1)*10)
 
     # last end v line
@@ -265,7 +265,7 @@ def get_data_span(sche_input):
     max_width = 20
     max_core = 0
     for i in sche_input:
-        print(i)
+        #print(i)
         if i[1]> max_width:
             max_width = int(i[1])
         if i[2]> max_width:
