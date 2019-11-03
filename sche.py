@@ -87,9 +87,7 @@ def rr(task_list):
         finished = False
         runned = False
 
-        print("Tick= ", tick)
         for i in range(i_max):
-            print("Tick= ", tick)
             if time_left[i] > 0:
                 if arr_time[i] <= tick:
                     runned = True
@@ -136,7 +134,6 @@ if algo_num == 0:
     sched_tasks = fifo(task_list)
 if algo_num == 1:
     sched_tasks = rr(task_list)
-    # sched_tasks = fifo(task_list)
 
 sche = []
 
